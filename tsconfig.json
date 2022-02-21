@@ -20,6 +20,14 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
+  "paths": {
+      "@components/*": ["./src/components/*"],
+      "@contextsAuth/*": ["./src/contextsAuth/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@types/*": ["./src/types/*"],
+      "@routes/*": ["./src/routes/*"],
+    },
   "include": [
     "src"
   ]
