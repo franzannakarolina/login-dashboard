@@ -218,7 +218,7 @@ export default function Home() {
           </CardActions>{" "}
         </div>
         <div className={classes.divButton}>
-          <Link to="/" className={classes.link}>
+          <Link to="/dashboard" className={classes.link}>
             {auth.user && <button onClick={handleLogout}>Sair</button>}
             <Button
               variant="contained"

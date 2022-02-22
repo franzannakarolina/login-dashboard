@@ -16,23 +16,34 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import TextField from "@material-ui/core/TextField";
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import BorderColorIcon from "@material-ui/icons/BorderColor";
 import ContactsIcon from "@material-ui/icons/Contacts";
 
-import Graphic from "../../components/Graphic/index";
-
 import { AuthContext } from "../../contextsAuth/AuthContext";
 
 import { Link } from "react-router-dom";
+
+import { useFetch } from "../../hooks/useFetch";
+
+type Psafe = {
+  id: number;
+  name: string;
+  description: number;
+  date: string;
+};
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+      width: 200,
+    },
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -85,13 +96,25 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
   },
-  content: {
-    margin: "6rem 0 0 0",
+  formList: {
+    margin: "6rem 4rem 4rem 4rem",
+  },
+  paddingForm: {
+    padding: "1rem 1rem",
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
   },
 }));
 
-export default function Dashboard() {
+export default function Lista() {
   const auth = useContext(AuthContext);
+
+  const { data } = useFetch<Psafe[]>(
+    "http://candidate-api.srt.psafe.com/v1/query_collectors"
+  );
 
   const classes = useStyles();
   const theme = useTheme();
@@ -127,7 +150,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Olá {auth.user?.name}, Welcome Dashboard!
+            Olá {auth.user?.name}, Welcome List!
           </Typography>
         </Toolbar>
       </AppBar>
@@ -187,8 +210,87 @@ export default function Dashboard() {
           ))}
         </List>
       </Drawer>
-      <main className={classes.content}>
-        <Graphic />
+      <main>
+        <form className={classes.formList}>
+          <div className={classes.paddingForm}>
+            <TextField
+              label="ID"
+              id="id"
+              value={auth.user?.id}
+              placeholder="ID"
+              variant="outlined"
+            >
+              {data && data.map((item) => <div key={item.id}>{item.name}</div>)}
+            </TextField>
+            <TextField
+              label="Nome"
+              id="outlined-size-normal"
+              placeholder="Nome"
+              variant="outlined"
+            >
+              {data && data.map((item) => <div key={item.name}></div>)}
+            </TextField>
+            <TextField
+              label="Number"
+              id="outlined-size-normal"
+              placeholder="Number"
+              variant="outlined"
+            >
+              {data && data.map((item) => <div key={item.id}></div>)}
+            </TextField>
+            <TextField
+              id="datetime-local"
+              label="Date"
+              type="datetime-local"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            >
+              {data && data.map((item) => <div key={item.date}></div>)}
+            </TextField>
+          </div>
+        </form>
+        <form className={classes.formList}>
+          <div className={classes.paddingForm}>
+            <TextField
+              label="ID"
+              id="id"
+              value={auth.user?.id}
+              placeholder="ID"
+              variant="outlined"
+            >
+              {data && data.map((item) => <div key={item.id}>{item.name}</div>)}
+            </TextField>
+            <TextField
+              label="Nome"
+              id="outlined-size-normal"
+              placeholder="Nome"
+              variant="outlined"
+            >
+              {data && data.map((item) => <div key={item.name}></div>)}
+            </TextField>
+            <TextField
+              label="Number"
+              id="outlined-size-normal"
+              placeholder="Number"
+              variant="outlined"
+            >
+              {data && data.map((item) => <div key={item.id}></div>)}
+            </TextField>
+            <TextField
+              id="datetime-local"
+              label="Date"
+              type="datetime-local"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            >
+              {data && data.map((item) => <div key={item.date}></div>)}
+            </TextField>
+          </div>
+        </form>
       </main>
     </div>
   );
